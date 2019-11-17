@@ -3,6 +3,9 @@ import json
 from datetime import datetime, time
 
 # deploy instructions: https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html
+# zip -r9 ../function.zip .
+# aws lambda update-function-code --function-name schedule-alerts --zip-file fileb://function.zip
+
 
 # https://api-v3.mbta.com/predictions?filter[stop]=31187&filter[route]=42&filter[direction_id]=0
 
@@ -24,10 +27,10 @@ def lambda_handler(event, context):
     for p in response.json()['data']:
         arrival_time = datetime.fromisoformat(p['attributes']['arrival_time'])
         if(is_in_range(arrival_time)):
-            upcoming.append(p)
+            upcoming.append(arrival_time)
 
     if(len(upcoming) > 0):
-        message = "Bus is coming at"
+        message = "Next bus is coming at " + upcoming[0].strftime("%I:%M %p")
     else:
         message = "Bus is not coming"
 
