@@ -11,7 +11,11 @@ import re
 
 # https://api-v3.mbta.com/predictions?filter[stop]=31187&filter[route]=42&filter[direction_id]=0
 
-
+def iso_to_datetime(datetimeStr):
+    #arrival_time = datetime.fromisoformat(p['attributes']['arrival_time']) #2019-11-16T22:44:26-05:00
+    time_parsed = re.sub(r'\-0[45]:00$', "", datetimeStr)
+    convertedTime = datetime.strptime(time_parsed, "%Y-%m-%dT%H:%M:%S")
+    return convertedTime
 
 def is_in_range(arrival_time):
     t = arrival_time.time()
@@ -21,20 +25,27 @@ def is_in_range(arrival_time):
         return False
 
 def get_response_from_predictions(predictions):
+    '''
     upcoming = []
-
     for p in predictions:
-        #arrival_time = datetime.fromisoformat(p['attributes']['arrival_time']) #2019-11-16T22:44:26-05:00
-        arrival_time_parsed = re.sub(r'\-0[45]:00$', "", p['attributes']['arrival_time'])
-        arrival_time = datetime.strptime(arrival_time_parsed, "%Y-%m-%dT%H:%M:%S")
+        arrival_time = iso_to_datetime(p['attributes']['arrival_time'])
         if(is_in_range(arrival_time)):
             upcoming.append(arrival_time)
+    '''
+    
+    times = list(map(lambda x: iso_to_datetime(x['attributes']['arrival_time']), predictions))
+    upcoming = [p for p in times if is_in_range(p)]
 
-    if(len(upcoming) > 0):
+    if not upcoming:
+        return "Bus is not coming"
+
+    if(len(upcoming) == 1):
         return "Next bus is coming at " + upcoming[0].strftime("%I:%M %p")
 
     else:
-        return "Bus is not coming"
+        return "Next buses are coming at " + upcoming[0].strftime("%I:%M %p") \
+            + " and " + upcoming[1].strftime("%I:%M %p")
+
 
 
 
