@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 pip install --target ./package
 pushd ./package
