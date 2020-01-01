@@ -17,7 +17,7 @@ def test_one_coming():
 
 def test_two_coming():
     data = get_data("testdata_2coming.json")
-    assert schedule_alerts.get_response_from_predictions(data) == "Next buses are coming at 07:56 AM and 08:01 AM"
+    assert schedule_alerts.get_response_from_predictions(data) == "Next buses are coming at 07:56 AM and 08:04 AM"
 
 def get_data(filename):
     file = open(filename)

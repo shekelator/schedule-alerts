@@ -40,8 +40,8 @@
         },
         {
             "attributes": {
-                "arrival_time": "2019-11-16T08:01:52-05:00",
-                "departure_time": "2019-11-16T08:01:52-05:00",
+                "arrival_time": "2019-11-16T08:04:52-05:00",
+                "departure_time": "2019-11-16T08:04:52-05:00",
                 "direction_id": 0,
                 "schedule_relationship": null,
                 "status": null,
