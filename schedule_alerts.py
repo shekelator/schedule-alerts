@@ -19,7 +19,7 @@ def iso_to_datetime(datetimeStr):
 
 def is_in_range(arrival_time):
     t = arrival_time.time()
-    if(t > time(7, 55, 0) and t < time(8, 5, 0)):
+    if(t > time(7, 55, 0) and t < time(8, 10, 0)):
         return True
     else:
         return False
