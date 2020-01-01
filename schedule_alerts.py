@@ -55,17 +55,20 @@ def lambda_handler(event, context):
     predictionsData = predictionsResponse.json()['data']
 
     message = get_response_from_predictions(predictionsData)
-    
     sns = boto3.client('sns')
-    response = sns.publish(
-        TopicArn = "arn:aws:sns:us-east-1:261024489445:schedule-alerts",
-        # TargetArn = "",
-        Message = message,
-        MessageStructure = "string"
-    )
+
+    if(event.get('test') != True):
+        response = sns.publish(
+            TopicArn = "arn:aws:sns:us-east-1:261024489445:schedule-alerts",
+            # TargetArn = "",
+            Message = message,
+            MessageStructure = "string"
+        )
+        print(response)
+    else:
+        print("Test event, not sending message to SNS")
 
     print(message)
-    print(response)
 
     return {
         'statusCode': 200,
